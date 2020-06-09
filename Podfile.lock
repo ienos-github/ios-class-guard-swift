@@ -1,0 +1,16 @@
+PODS:
+  - Kiwi (2.3.0)
+
+DEPENDENCIES:
+  - Kiwi
+
+SPEC REPOS:
+  trunk:
+    - Kiwi
+
+SPEC CHECKSUMS:
+  Kiwi: 4c3988bd551f80f6ca0009f302f7c1a2e3777bf2
+
+PODFILE CHECKSUM: 213c9e67fffc71d885ebd2c58be8fb39e40b2caa
+
+COCOAPODS: 1.8.4

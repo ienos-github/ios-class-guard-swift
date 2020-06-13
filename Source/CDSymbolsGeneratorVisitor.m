@@ -527,10 +527,15 @@ static NSString *const lettersSet[maxLettersSet] = {
 }
 
 - (void)willVisitCategory:(CDOCCategory *)category {
+    NSString *categoryName = [NSString stringWithFormat:@"%@+%@", category.className, category.name];
     if (_external) {
         _ignored = YES;
+    } else if (![self shouldClassBeObfuscated:categoryName]) {
+        [_forbiddenNames addObject:categoryName];
+        _ignored = YES;
+        NSLog(@"Ignoring @category %@", categoryName);
     } else {
-        NSLog(@"Obfuscating @category %@+%@", category.className, category.name);
+        NSLog(@"Obfuscating @category %@", categoryName);
         [_categoryNames addObject:category.name];
         _ignored = NO;
     }

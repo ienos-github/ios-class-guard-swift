@@ -42,7 +42,7 @@
     while ([cursor isAtEnd] == NO) {
         uint64_t val = [cursor readPtr];
         CDOCClass *aClass = [self loadClassAtAddress:val];
-        if (aClass != nil) {
+        if (aClass != nil && !aClass.isSwiftClass) {
             [self addClass:aClass withAddress:val];
         }
     }
@@ -222,7 +222,8 @@
     objc2Class.vtable     = [cursor readPtr];
 
     uint64_t value        = [cursor readPtr];
-    class.isSwiftClass    = (value & 0x1) != 0;
+    BOOL isSwift = (value & 0x1) != 0;
+
     objc2Class.data       = value & ~7;
 
     objc2Class.reserved1  = [cursor readPtr];
@@ -259,6 +260,7 @@
     //NSLog(@"name = %@", str);
     
     CDOCClass *aClass = [[CDOCClass alloc] init];
+    aClass.isSwiftClass    = isSwift;
     [aClass setName:str];
     
     for (CDOCMethod *method in [self loadMethodsAtAddress:objc2ClassData.baseMethods])
